@@ -9,22 +9,21 @@ The following steps were  in [the AWS 'terraform-aws-control_tower_account_facto
 AWS Control Tower Requires a standalone AWS account in order to configure AWS Organizations/ Control Tower.
 
 ### 2. Create S3 Bucket for Terraform Backend
-Instructions to manually create a secure AWS S3 bucket via AWS CLI, to be used as a Terraform backend.
+Instructions to manually create a secure AWS S3 bucket via AWS CLI, to be used as the first Terraform backend.
 
-Set the profile to configure the S3 bucket. E.g.:
-```
+Set the profile & region to create the S3 bucket. E.g.:
+```sh
 export AWS_PROFILE=123_abc
+export AWS_DEFAULT_REGION=us-east-1
 ```
 
 Create S3 Bucket (object-lock enabled):
-```
-aws s3api create-bucket --bucket anuj-tfbackend --region us-east-1 --object-lock-enabled-for-bucket
+```sh
+aws s3api create-bucket --bucket anuj-tfbackend --object-lock-enabled-for-bucket
 ```
 
-Enable Public Access Block:
-```
-aws s3api put-public-access-block --bucket anuj-tfbackend --profile  --region us-east-1 --public-access-block-configuration "BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true"
-```
+***Since April 2023, S3 Public Access Block is enabled by default.***
+
 
 ## Deployment
 
