@@ -6,6 +6,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - name: Checkout code
+        uses: actions/checkout@v3
       - name: terraform-version
         uses: dflook/terraform-version@v1.34.0
       - name: terraform-validate
