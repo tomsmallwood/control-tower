@@ -4,6 +4,11 @@ variable "region" {
   default = "us-east-1"
 }
 
+# AWS Control Tower Management account ID
+variable "ct_management_account_id" {
+  type = string
+}
+
 # AWS profile used to bootstrap the AWS Organization for Control Tower
 variable "admin_profile" {
   type = string
