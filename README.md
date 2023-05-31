@@ -1,25 +1,20 @@
 # Control Tower AFT Bootstrap
-Deploys an AWS Organization using AWS Control Tower AFT (Account Factory for Terraform).
+Deploys an AWS Organization and AWS Control Tower AFT (Account Factory for Terraform).
 
-The bootstrap steps here are listed in the AWS 'terraform-aws-control_tower_account_factory' repo:
-
-[Terraform AWS Control Tower Account Factory](https://github.com/aws-ia/terraform-aws-control_tower_account_factory/tree/main#configure-and-launch-your-aws-control-tower-account-factory-for-terraform)
+The bootstrap steps performed below are defined in the AWS-maintained repo [Terraform AWS Control Tower Account Factory](https://github.com/aws-ia/terraform-aws-control_tower_account_factory/tree/main#configure-and-launch-your-aws-control-tower-account-factory-for-terraform).
 
 
 ### 1. Setup AWS Management account
 AWS Control Tower Requires a standalone AWS account in order to configure AWS Organizations/ Control Tower.
 
-### 2. Setup AWS Landing Zone
-Turn on Control Tower Landing Zone.
-
-### 3. Create S3 Bucket for Terraform Backend
-Instructions to manually create a secure AWS S3 bucket via AWS CLI, to be used as the first Terraform backend.
-
-Set the profile & region to create the S3 bucket. E.g.:
+Set your AWS SSO profile & region locally to configure the following resources. E.g.:
 ```sh
-export AWS_PROFILE=123_abc
+export AWS_DEFAULT_PROFILE=123_abc
 export AWS_DEFAULT_REGION=us-east-1
 ```
+
+### 2. Create S3 Bucket for Terraform Backend
+Instructions to manually create a secure AWS S3 bucket via AWS CLI, to be used as the first Terraform backend.
 
 Create S3 Bucket (object-lock enabled):
 ```sh
@@ -28,11 +23,33 @@ aws s3api create-bucket --bucket anuj-tfbackend --object-lock-enabled-for-bucket
 
 ***Since April 2023, S3 Public Access Block is enabled by default.***
 
-### 4. Bootstrap OUs and AWS Accounts
+### 3. Bootstrap OUs and AWS Accounts
 ```sh
 terraform init -backend-config=./backends/finops.backend
 terraform plan -var-file=./tfvars/prod.tfvars
 ```
+
+### 4. Enable AWS Control Tower Landing Zone
+
+* Launch your AWS Control Tower landing zone in `us-east-1`:
+
+<img src="images/control-tower-setup.png" width="500px">
+
+* Set home region:
+
+<img src="images/step-1.png" width="500px">
+
+* Enabled deny region setting:
+
+<img src="images/step-2.png" width="500px">
+
+* Select regions to enable:
+
+<img src="images/step-3.png" width="500px">
+
+* Configure OUs:
+
+<img src="images/step-4.png" width="500px">
 
 ### 5. Deploy AFT
 
@@ -71,8 +88,6 @@ See: https://github.com/aws-ia/terraform-aws-control_tower_account_factory/tree/
 |------|------|
 | [aws_organizations_organization.org](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/organizations_organization) | resource |
 | [aws_organizations_organizational_unit.aft_management](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/organizations_organizational_unit) | resource |
-| [aws_organizations_organizational_unit.audit](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/organizations_organizational_unit) | resource |
-| [aws_organizations_organizational_unit.logging](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/organizations_organizational_unit) | resource |
 | [aws_organizations_organizational_units.root](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/organizations_organizational_units) | data source |
 
 ## Inputs

@@ -1,7 +1,7 @@
 resource "aws_organizations_organization" "org" {
-  aws_service_access_principals = [
-    "cloudtrail.amazonaws.com"
-  ]
+  # aws_service_access_principals = [
+  #   "cloudtrail.amazonaws.com"
+  # ]
   feature_set = "ALL"
 }
 
@@ -19,10 +19,10 @@ module "aft" {
 
   # VCS Vars
   vcs_provider                                  = "github"
-  account_request_repo_name                     = "ExampleOrg/example-repo-1"
-  global_customizations_repo_name               = "ExampleOrg/example-repo-2"
-  account_customizations_repo_name              = "ExampleOrg/example-repo-3"
-  account_provisioning_customizations_repo_name = "ExampleOrg/example-repo-4"
+  account_request_repo_name                     = "aws-ia/terraform-aws-control_tower_account_factory//sources/aft-customizations-repos/aft-account-request"
+  global_customizations_repo_name               = "aws-ia/terraform-aws-control_tower_account_factory//sources/aft-customizations-repos/aft-global-customizations"
+  account_customizations_repo_name              = "aws-ia/terraform-aws-control_tower_account_factory//sources/aft-customizations-repos/aft-account-customizations"
+  account_provisioning_customizations_repo_name = "aws-ia/terraform-aws-control_tower_account_factory//sources/aft-customizations-repos/aft-account-provisioning-customizations"
 
   # Opt out of reporting metrics
   aft_metrics_reporting = false
