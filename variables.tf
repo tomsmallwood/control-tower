@@ -1,11 +1,32 @@
-# default AWS region
-variable "region" {
+# Control Tower home AWS region
+variable "ct_home_region" {
   type    = string
   default = "us-east-1"
 }
 
+# Secondary region to replicate the AFT backend
+variable "tf_backend_secondary_region" {
+  type    = string
+  default = "us-west-1"
+}
+
+# Account Factory for Terraform management account email address
+variable "aft_management_account_email" {
+  type = string
+}
+
 # AWS Control Tower Management account ID
 variable "ct_management_account_id" {
+  type = string
+}
+
+# Log Archive account ID
+variable "log_archive_account_id" {
+  type = string
+}
+
+# Auditing account ID
+variable "audit_account_id" {
   type = string
 }
 
